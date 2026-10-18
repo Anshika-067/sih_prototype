@@ -137,12 +137,14 @@ function initGeographicViews() {
     option.textContent = sector;
     sectorSelect.appendChild(option);
   });
-  LOCAL_DASHBOARD_DATA.states.forEach(state => {
+  INDIAN_STATE_DISTRICTS.forEach(state => {
     const option = document.createElement("option");
-    option.value = state.name;
-    option.textContent = state.name;
+    option.value = state.state;
+    option.textContent = state.state;
     stateSelect.appendChild(option);
   });
+  stateSelect.value = LOCAL_DASHBOARD_DATA.states[0]?.name
+    || INDIAN_STATE_DISTRICTS[0].state;
   sectorSelect.addEventListener("change", renderStateSectorComparison);
   stateSelect.addEventListener("change", populateDistrictOptions);
   districtSelect.addEventListener("change", renderDistrictAnalysis);
@@ -174,35 +176,56 @@ function renderStateSectorComparison() {
 }
 
 function populateDistrictOptions() {
-  const stateName = document.getElementById("district-state-select").value
-    || LOCAL_DASHBOARD_DATA.states[0].name;
-  const state = LOCAL_DASHBOARD_DATA.states.find(item => item.name === stateName);
+  const stateName = document.getElementById("district-state-select").value;
+  const state = INDIAN_STATE_DISTRICTS.find(item => item.state === stateName);
+  if (!state) {
+    throw new Error(`No district directory found for state or territory "${stateName}".`);
+  }
+
   const select = document.getElementById("district-select");
+  const previousDistrict = select.value;
   select.replaceChildren();
   state.districts.forEach(district => {
     const option = document.createElement("option");
-    option.value = district.name;
-    option.textContent = district.name;
+    option.value = district;
+    option.textContent = district;
     select.appendChild(option);
   });
+  if (state.districts.includes(previousDistrict)) {
+    select.value = previousDistrict;
+  } else {
+    const sampleDistrict = LOCAL_DASHBOARD_DATA.states
+      .find(item => item.name === stateName)?.districts[0]?.name;
+    if (sampleDistrict && state.districts.includes(sampleDistrict)) {
+      select.value = sampleDistrict;
+    }
+  }
   renderDistrictAnalysis();
 }
 
 function renderDistrictAnalysis() {
-  const stateName = document.getElementById("district-state-select").value
-    || LOCAL_DASHBOARD_DATA.states[0].name;
-  const state = LOCAL_DASHBOARD_DATA.states.find(item => item.name === stateName);
+  const stateName = document.getElementById("district-state-select").value;
+  const state = INDIAN_STATE_DISTRICTS.find(item => item.state === stateName);
+  if (!state) {
+    throw new Error(`No district directory found for state or territory "${stateName}".`);
+  }
+
   const districtName = document.getElementById("district-select").value;
-  const district = state.districts.find(item => item.name === districtName) || state.districts[0];
+  const sampleState = LOCAL_DASHBOARD_DATA.states.find(item => item.name === stateName);
+  const sampleDistrict = sampleState?.districts.find(item => item.name === districtName);
+  const baseScores = sampleState?.scores || LOCAL_DASHBOARD_DATA.sectors.map((_, index) =>
+    Math.round(LOCAL_DASHBOARD_DATA.states.reduce((total, item) => total + item.scores[index], 0)
+      / LOCAL_DASHBOARD_DATA.states.length));
+  const sample = getDistrictSample(stateName, districtName, baseScores, sampleDistrict);
   const scores = LOCAL_DASHBOARD_DATA.sectors.map((sector, index) => ({
     sector,
-    score: Math.max(0, Math.min(100, state.scores[index] + district.adjustments[index])),
+    score: Math.max(0, Math.min(100, baseScores[index] + sample.adjustments[index])),
   })).sort((a, b) => b.score - a.score);
 
-  document.getElementById("district-demand").textContent = district.demand;
-  document.getElementById("district-openings").textContent = district.openings.toLocaleString();
+  document.getElementById("district-demand").textContent = sample.demand;
+  document.getElementById("district-openings").textContent = sample.openings.toLocaleString();
   document.getElementById("district-leading-sector").textContent = scores[0].sector;
-  document.getElementById("district-sector-title").textContent = `${district.name}, ${state.name} — sector profile`;
+  document.getElementById("district-sector-title").textContent = `${districtName}, ${stateName} — sector profile`;
   renderMetricBars("district-sector-bars", scores.map(item => ({
     label: item.sector, value: item.score,
   })));
@@ -214,6 +237,26 @@ function renderDistrictAnalysis() {
     row.insertCell().textContent = item.sector;
     row.insertCell().textContent = item.score;
   });
+}
+
+function getDistrictSample(stateName, districtName, baseScores, sampleDistrict) {
+  if (sampleDistrict) return sampleDistrict;
+
+  let hash = 0;
+  for (const character of `${stateName}:${districtName}`) {
+    hash = (hash * 31 + character.charCodeAt(0)) >>> 0;
+  }
+  const adjustments = LOCAL_DASHBOARD_DATA.sectors.map((_, index) =>
+    ((hash >>> (index * 3)) % 9) - 4);
+  const averageScore = baseScores.reduce((total, score) => total + score, 0)
+    / baseScores.length;
+  const demand = Math.max(50, Math.min(95, Math.round(averageScore + (hash % 15) - 7)));
+
+  return {
+    demand,
+    openings: Math.round((demand * 180 + (hash % 500)) / 100) * 100,
+    adjustments,
+  };
 }
 
 /** Filter the preloaded job-role options by the selected industry and specialization. */

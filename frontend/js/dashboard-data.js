@@ -56,7 +56,7 @@ const LOCAL_DASHBOARD_DATA = {
       { name: "Belagavi", demand: 72, openings: 3600, adjustments: [-6, 1, 4, -4, -2, 3] },
     ] },
     { name: "Maharashtra", scores: [87, 78, 79, 88, 83, 71], districts: [
-      { name: "Mumbai City", demand: 92, openings: 22100, adjustments: [1, 1, -4, 7, 4, -4] },
+      { name: "Mumbai", demand: 92, openings: 22100, adjustments: [1, 1, -4, 7, 4, -4] },
       { name: "Pune", demand: 88, openings: 16200, adjustments: [6, 0, 4, -2, 2, -3] },
       { name: "Nagpur", demand: 76, openings: 5100, adjustments: [-5, 2, 2, -1, -1, 5] },
     ] },
@@ -67,7 +67,7 @@ const LOCAL_DASHBOARD_DATA = {
     ] },
     { name: "Telangana", scores: [89, 74, 72, 79, 81, 69], districts: [
       { name: "Hyderabad", demand: 92, openings: 19300, adjustments: [5, 2, -2, 2, 3, -4] },
-      { name: "Rangareddy", demand: 86, openings: 10700, adjustments: [4, 0, 1, 1, 2, -2] },
+      { name: "Ranga Reddy", demand: 86, openings: 10700, adjustments: [4, 0, 1, 1, 2, -2] },
       { name: "Warangal", demand: 71, openings: 3400, adjustments: [-5, 1, 0, -3, -2, 5] },
     ] },
     { name: "Gujarat", scores: [76, 71, 86, 78, 79, 79], districts: [
@@ -86,8 +86,8 @@ const LOCAL_DASHBOARD_DATA = {
       { name: "Varanasi", demand: 70, openings: 3700, adjustments: [-3, 1, -2, -2, -1, 4] },
     ] },
     { name: "Delhi", scores: [88, 81, 65, 86, 87, 60], districts: [
-      { name: "Central Delhi", demand: 90, openings: 14600, adjustments: [2, 1, -5, 4, 3, -5] },
-      { name: "South Delhi", demand: 88, openings: 11200, adjustments: [3, 1, -5, 3, 4, -5] },
+      { name: "Central", demand: 90, openings: 14600, adjustments: [2, 1, -5, 4, 3, -5] },
+      { name: "South", demand: 88, openings: 11200, adjustments: [3, 1, -5, 3, 4, -5] },
       { name: "New Delhi", demand: 91, openings: 13100, adjustments: [1, 2, -6, 5, 4, -5] },
     ] },
   ],

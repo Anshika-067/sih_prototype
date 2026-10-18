@@ -145,9 +145,10 @@ Invoke-RestMethod -Method POST -Uri "http://127.0.0.1:5000/api/recommendations" 
 
 ### 3. District Analysis
 - Open **📍 District Analysis**
-- Choose a state or territory, then one of its sample districts
+- Choose any of India's 28 states or 8 union territories, then one of its listed districts
 - Review its simulated demand index, estimated openings, leading sector, and sector profile
-- State and district values are illustrative sample data, not official statistics.
+- The state and district directory is bundled from the [official Indian Government directory](https://igod.gov.in/sg/district/states), via [KTBsomen/Indian-state-district-json](https://github.com/KTBsomen/Indian-state-district-json) (MIT License; Copyright (c) 2026 somen das).
+- Demand, opening, and sector values are illustrative sample estimates, not official statistics.
 
 ### 4. Skill Gap Analysis
 - Click **📈 Skill Gap** tab
