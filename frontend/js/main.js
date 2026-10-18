@@ -48,6 +48,15 @@ function switchTab(tabName) {
  * Loads all data needed for the dashboard.
  */
 async function init() {
+  let topSkills = LOCAL_DASHBOARD_DATA.topSkills;
+  let categories = LOCAL_DASHBOARD_DATA.categories;
+  let trending = LOCAL_DASHBOARD_DATA.trending;
+  let groupedRoles = getLocalGroupedRoles();
+  let roles = Object.values(groupedRoles).flatMap(domains => Object.values(domains).flat());
+
+  renderDashboard(topSkills, categories, trending, groupedRoles, roles);
+  initGeographicViews();
+
   const results = await Promise.allSettled([
     fetchTopSkills(15),
     fetchSkillCategories(),
@@ -57,12 +66,24 @@ async function init() {
   ]);
   const valueOr = (index, fallback) =>
     results[index].status === "fulfilled" ? results[index].value : fallback;
-  const topSkills = valueOr(0, LOCAL_DASHBOARD_DATA.topSkills);
-  const categories = valueOr(1, LOCAL_DASHBOARD_DATA.categories);
-  const trending = valueOr(2, LOCAL_DASHBOARD_DATA.trending);
-  const groupedRoles = valueOr(4, getLocalGroupedRoles());
-  const roles = valueOr(3, Object.values(groupedRoles).flatMap(domains => Object.values(domains).flat()));
+  topSkills = valueOr(0, topSkills);
+  categories = valueOr(1, categories);
+  trending = valueOr(2, trending);
+  groupedRoles = valueOr(4, groupedRoles);
+  roles = valueOr(3, roles);
 
+  if (results.some(result => result.status === "fulfilled")) {
+    renderDashboard(topSkills, categories, trending, groupedRoles, roles);
+  }
+
+  results.forEach((result, index) => {
+    if (result.status === "rejected") {
+      console.warn(`[SkillTor] Dashboard API request ${index + 1} failed; using sample data.`, result.reason);
+    }
+  });
+}
+
+function renderDashboard(topSkills, categories, trending, groupedRoles, roles) {
   allTopSkills = topSkills;
   allRoles = roles;
 
@@ -88,13 +109,6 @@ async function init() {
   }
   renderTrendingPills(trending);
   populateRoleSelect("rec-role-select", groupedRoles);
-  initGeographicViews();
-
-  results.forEach((result, index) => {
-    if (result.status === "rejected") {
-      console.warn(`[SkillTor] Dashboard API request ${index + 1} failed; using sample data.`, result.reason);
-    }
-  });
 }
 
 function getLocalGroupedRoles() {
