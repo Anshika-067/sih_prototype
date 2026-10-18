@@ -1,0 +1,60 @@
+job_role,sector,domain,skills_required,demand_score,growth_trend
+Data Scientist,IT & Software,Data Science,"Python,Machine Learning,Statistics,SQL,Data Visualization,Pandas,NumPy,Scikit-learn",92,rising
+Web Developer,IT & Software,Web Development,"HTML,CSS,JavaScript,React,Node.js,SQL,Git,REST APIs",88,rising
+Machine Learning Engineer,IT & Software,Data Science,"Python,Machine Learning,Deep Learning,TensorFlow,PyTorch,Mathematics,Git,Docker",90,rising
+Data Analyst,IT & Software,Data Science,"SQL,Excel,Data Visualization,Python,Statistics,Tableau,Power BI",78,stable
+Cybersecurity Analyst,IT & Software,Cybersecurity,"Networking,Linux,Security Protocols,Python,Ethical Hacking,Firewalls,Cryptography",82,rising
+Penetration Tester,IT & Software,Cybersecurity,"Ethical Hacking,Python,Networking,Linux,Cryptography,Vulnerability Assessment,Kali Linux",85,rising
+Security Operations Analyst,IT & Software,Cybersecurity,"SIEM Tools,Incident Response,Networking,Linux,Threat Intelligence,Firewalls,Security Protocols",80,rising
+Python Developer,IT & Software,Python,"Python,REST APIs,Django,Flask,SQL,Git,Docker,Unit Testing",87,rising
+Full Stack Developer,IT & Software,Web Development,"HTML,CSS,JavaScript,React,Node.js,Python,SQL,Git,REST APIs,Docker",89,rising
+Frontend Developer,IT & Software,Web Development,"HTML,CSS,JavaScript,React,Vue.js,TypeScript,Git,Responsive Design",86,rising
+Backend Developer,IT & Software,Web Development,"Python,Node.js,Java,SQL,NoSQL,REST APIs,Docker,Git",84,rising
+Cloud Engineer,IT & Software,Web Development,"AWS,Azure,GCP,Docker,Kubernetes,Linux,Networking,Terraform",87,rising
+DevOps Engineer,IT & Software,Web Development,"Linux,Docker,Kubernetes,CI/CD,AWS,Git,Scripting,Networking",85,rising
+NLP Engineer,IT & Software,Data Science,"Python,Machine Learning,NLP,Deep Learning,TensorFlow,Mathematics,Git",88,rising
+Healthcare Administrator,Healthcare,Healthcare Administration,"Healthcare Management,Medical Terminology,HIPAA Compliance,MS Office,Healthcare IT,Budgeting,Communication,Leadership",75,stable
+Hospital Operations Manager,Healthcare,Healthcare Administration,"Healthcare Management,Operations,Budgeting,Leadership,Medical Terminology,HIPAA Compliance,Communication,EHR Systems",73,stable
+Clinical Project Coordinator,Healthcare,Healthcare Administration,"Clinical Research,Medical Terminology,Project Management,HIPAA Compliance,MS Office,Communication,Data Analysis",72,rising
+Medical Coder,Healthcare,Medical Coding,"ICD-10,CPT Coding,Medical Terminology,HIPAA Compliance,EHR Systems,Anatomy,MS Office,Attention to Detail",77,stable
+Medical Billing Specialist,Healthcare,Medical Coding,"Medical Billing,ICD-10,CPT Coding,Medical Terminology,EHR Systems,Insurance Claims,MS Office",74,stable
+Health Information Technician,Healthcare,Medical Coding,"Health Records,ICD-10,Medical Terminology,EHR Systems,HIPAA Compliance,Data Entry,Attention to Detail",70,stable
+Health Informatics Specialist,Healthcare,Health Informatics,"Health IT,EHR Systems,Data Analysis,Python,SQL,HIPAA Compliance,Healthcare Management,HL7",83,rising
+Clinical Data Analyst,Healthcare,Health Informatics,"SQL,Data Analysis,Python,EHR Systems,Statistics,Healthcare Management,Data Visualization",80,rising
+Healthcare Data Scientist,Healthcare,Health Informatics,"Python,Machine Learning,Statistics,SQL,EHR Systems,Data Visualization,HIPAA Compliance,Pandas",85,rising
+Automation Engineer,Manufacturing,Automation,"PLC Programming,SCADA,Industrial Automation,Robotics,Electrical Engineering,C++,CAD,Troubleshooting",80,rising
+Robotics Engineer,Manufacturing,Automation,"Robotics,Python,C++,ROS,Mechanical Engineering,PLC Programming,CAD,MATLAB",83,rising
+Industrial IoT Engineer,Manufacturing,Automation,"IoT,Python,Networking,PLC Programming,Industrial Automation,Data Analysis,Cloud Platforms,Sensors",82,rising
+Quality Control Analyst,Manufacturing,Quality Control,"Quality Management,Six Sigma,Statistical Analysis,Inspection Techniques,ISO Standards,MS Office,Root Cause Analysis",72,stable
+Quality Assurance Engineer,Manufacturing,Quality Control,"Quality Management,Six Sigma,ISO Standards,Testing,Statistical Analysis,Root Cause Analysis,Lean Manufacturing",74,stable
+Lean Manufacturing Specialist,Manufacturing,Quality Control,"Lean Manufacturing,Six Sigma,Process Improvement,Quality Management,Value Stream Mapping,MS Office,Leadership",71,stable
+Industrial Maintenance Technician,Manufacturing,Industrial Maintenance,"Electrical Systems,Mechanical Maintenance,PLC Programming,Troubleshooting,Safety Protocols,Hydraulics,CMMS",70,stable
+Maintenance Engineer,Manufacturing,Industrial Maintenance,"Mechanical Engineering,Electrical Systems,PLC Programming,Hydraulics,Preventive Maintenance,CMMS,Troubleshooting",73,stable
+Plant Engineer,Manufacturing,Industrial Maintenance,"Mechanical Engineering,Electrical Systems,Industrial Automation,Project Management,Safety Protocols,CAD,Troubleshooting",75,stable
+Financial Analyst,Finance & Banking,Financial Analysis,"Financial Modeling,Excel,Python,SQL,Data Analysis,Accounting,Statistics,Power BI",85,rising
+Investment Analyst,Finance & Banking,Financial Analysis,"Financial Modeling,Excel,Statistics,Economics,Data Analysis,Bloomberg Terminal,Risk Analysis,SQL",83,rising
+Equity Research Analyst,Finance & Banking,Financial Analysis,"Financial Modeling,Excel,Statistics,Economics,Valuation,Data Analysis,Bloomberg Terminal,Communication",80,rising
+Accountant,Finance & Banking,Accounting,"Accounting,Tally,MS Excel,Financial Reporting,Tax Compliance,Bookkeeping,Auditing,Attention to Detail",72,stable
+Tax Analyst,Finance & Banking,Accounting,"Tax Compliance,Accounting,MS Excel,Financial Reporting,Income Tax,GST,Auditing,Attention to Detail",73,stable
+Forensic Accountant,Finance & Banking,Accounting,"Accounting,Auditing,Financial Investigation,MS Excel,Data Analysis,Legal Knowledge,Attention to Detail",76,rising
+Risk Analyst,Finance & Banking,Risk Analysis,"Risk Management,Financial Modeling,Excel,Statistics,SQL,Data Analysis,Compliance,Communication",82,rising
+Credit Risk Analyst,Finance & Banking,Risk Analysis,"Risk Management,Credit Analysis,Financial Modeling,Excel,Statistics,SQL,Banking Regulations,Communication",80,rising
+Compliance Officer,Finance & Banking,Risk Analysis,"Compliance,Risk Management,Legal Knowledge,Banking Regulations,MS Office,Communication,Attention to Detail",77,stable
+Digital Marketing Specialist,Marketing & Business,Digital Marketing,"SEO,SEM,Google Analytics,Social Media Marketing,Content Marketing,Email Marketing,MS Office,Canva",82,rising
+SEO Analyst,Marketing & Business,Digital Marketing,"SEO,Google Analytics,Keyword Research,Content Marketing,HTML Basics,Data Analysis,MS Office",78,stable
+Social Media Manager,Marketing & Business,Digital Marketing,"Social Media Marketing,Content Creation,Canva,Analytics,Communication,Copywriting,SEO",75,rising
+Sales Executive,Marketing & Business,Sales,"Communication,CRM Tools,Negotiation,MS Office,Product Knowledge,Lead Generation,Customer Service",73,stable
+Business Development Manager,Marketing & Business,Sales,"Business Development,CRM Tools,Negotiation,Communication,Lead Generation,Financial Analysis,Presentation Skills",78,rising
+Sales Operations Analyst,Marketing & Business,Sales,"CRM Tools,SQL,Data Analysis,Excel,Communication,Sales Strategy,Reporting",76,stable
+Business Analytics Manager,Marketing & Business,Business Analytics,"SQL,Python,Data Visualization,Power BI,Tableau,Excel,Statistics,Communication",84,rising
+Data Analyst - Business,Marketing & Business,Business Analytics,"SQL,Excel,Power BI,Data Visualization,Statistics,Communication,Python",79,stable
+Market Research Analyst,Marketing & Business,Business Analytics,"Data Analysis,Excel,Statistics,Communication,SQL,Survey Tools,Report Writing",74,stable
+Precision Farming Specialist,Agriculture,Precision Farming,"GIS,Remote Sensing,Agricultural Technology,Data Analysis,GPS Technology,Soil Science,IoT,Python",79,rising
+Agricultural Data Analyst,Agriculture,Precision Farming,"Data Analysis,Python,SQL,GIS,Agricultural Technology,Statistics,Remote Sensing",77,rising
+Drone Technology Specialist,Agriculture,Precision Farming,"Drone Technology,GIS,Remote Sensing,Agricultural Technology,Data Analysis,GPS Technology",75,rising
+Agricultural Technology Specialist,Agriculture,Agricultural Technology,"Agricultural Technology,IoT,Python,Data Analysis,Soil Science,Machine Learning,GIS,Communication",80,rising
+Farm Management Software Specialist,Agriculture,Agricultural Technology,"Farm Management Software,Agricultural Technology,MS Office,Data Analysis,Communication,ERP Systems",72,stable
+AgriTech Product Manager,Agriculture,Agricultural Technology,"Agricultural Technology,Product Management,Communication,Data Analysis,IoT,Project Management,Python",76,rising
+Supply Chain Manager,Agriculture,Supply Chain Management,"Supply Chain Management,Logistics,ERP Systems,MS Excel,Communication,Inventory Management,Procurement",77,stable
+Agricultural Supply Chain Analyst,Agriculture,Supply Chain Management,"Supply Chain Management,Data Analysis,Excel,Logistics,Communication,ERP Systems,SQL",74,stable
+Cold Chain Specialist,Agriculture,Supply Chain Management,"Cold Chain Management,Logistics,Supply Chain Management,Food Safety,ERP Systems,Communication,MS Office",72,stable

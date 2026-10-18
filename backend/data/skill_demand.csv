@@ -1,0 +1,103 @@
+skill,demand_score,category,sector,avg_salary_usd,job_postings_count,growth_trend
+Python,95,Programming,IT & Software,115000,145000,rising
+SQL,88,Database,IT & Software,95000,132000,stable
+JavaScript,92,Programming,IT & Software,110000,155000,rising
+Machine Learning,90,AI/ML,IT & Software,130000,78000,rising
+React,87,Web Framework,IT & Software,112000,98000,rising
+Docker,84,DevOps,IT & Software,120000,67000,rising
+AWS,89,Cloud,IT & Software,125000,89000,rising
+Git,91,Tools,IT & Software,100000,180000,stable
+Data Visualization,79,Analytics,IT & Software,100000,55000,stable
+Deep Learning,88,AI/ML,IT & Software,140000,52000,rising
+HTML,82,Web,IT & Software,90000,120000,stable
+CSS,78,Web,IT & Software,90000,115000,stable
+Java,84,Programming,IT & Software,108000,130000,stable
+Node.js,80,Programming,IT & Software,110000,72000,stable
+Kubernetes,83,DevOps,IT & Software,130000,45000,rising
+TensorFlow,82,AI/ML,IT & Software,135000,38000,rising
+TypeScript,85,Programming,IT & Software,115000,68000,rising
+Linux,80,OS,IT & Software,105000,90000,stable
+Pandas,84,Data Science,IT & Software,112000,48000,rising
+NumPy,82,Data Science,IT & Software,112000,45000,rising
+Scikit-learn,83,AI/ML,IT & Software,120000,38000,rising
+MongoDB,77,Database,IT & Software,105000,42000,stable
+REST APIs,85,Web,IT & Software,108000,75000,stable
+PyTorch,84,AI/ML,IT & Software,138000,32000,rising
+Azure,86,Cloud,IT & Software,122000,62000,rising
+Networking,74,Infrastructure,IT & Software,98000,48000,stable
+Ethical Hacking,83,Security,IT & Software,110000,32000,rising
+Security Protocols,80,Security,IT & Software,112000,28000,rising
+Firewalls,76,Security,IT & Software,105000,25000,stable
+Cryptography,78,Security,IT & Software,115000,22000,rising
+SIEM Tools,77,Security,IT & Software,108000,20000,rising
+Kali Linux,79,Security,IT & Software,108000,18000,rising
+Vulnerability Assessment,81,Security,IT & Software,112000,24000,rising
+Threat Intelligence,80,Security,IT & Software,115000,18000,rising
+Incident Response,79,Security,IT & Software,112000,20000,rising
+Django,80,Web Framework,IT & Software,108000,42000,stable
+Flask,76,Web Framework,IT & Software,100000,38000,stable
+NLP,85,AI/ML,IT & Software,132000,28000,rising
+Terraform,80,DevOps,IT & Software,125000,32000,rising
+Healthcare Management,78,Management,Healthcare,80000,42000,stable
+Medical Terminology,74,Healthcare,Healthcare,72000,55000,stable
+HIPAA Compliance,76,Compliance,Healthcare,78000,38000,stable
+EHR Systems,77,Healthcare IT,Healthcare,82000,45000,rising
+ICD-10,72,Medical Coding,Healthcare,68000,40000,stable
+CPT Coding,71,Medical Coding,Healthcare,68000,38000,stable
+Health IT,80,Healthcare IT,Healthcare,88000,35000,rising
+HL7,75,Healthcare IT,Healthcare,85000,22000,rising
+Clinical Research,74,Research,Healthcare,78000,28000,stable
+Data Analysis,85,Analytics,Cross-sector,95000,110000,rising
+Statistics,81,Mathematics,Cross-sector,105000,55000,stable
+MS Office,68,Tools,Cross-sector,65000,150000,stable
+Communication,70,Soft Skills,Cross-sector,70000,200000,stable
+Excel,71,Tools,Cross-sector,75000,110000,declining
+Leadership,72,Soft Skills,Cross-sector,85000,90000,stable
+PLC Programming,78,Automation,Manufacturing,85000,28000,rising
+SCADA,75,Automation,Manufacturing,88000,22000,stable
+Industrial Automation,80,Automation,Manufacturing,90000,32000,rising
+Robotics,82,Automation,Manufacturing,95000,28000,rising
+CAD,74,Engineering,Manufacturing,80000,40000,stable
+Electrical Systems,73,Engineering,Manufacturing,80000,35000,stable
+Six Sigma,76,Quality,Manufacturing,88000,30000,stable
+ISO Standards,72,Quality,Manufacturing,80000,28000,stable
+Quality Management,75,Quality,Manufacturing,82000,35000,stable
+Lean Manufacturing,74,Quality,Manufacturing,85000,28000,stable
+Root Cause Analysis,71,Quality,Manufacturing,80000,25000,stable
+CMMS,69,Maintenance,Manufacturing,75000,20000,stable
+Hydraulics,70,Maintenance,Manufacturing,78000,22000,stable
+Preventive Maintenance,68,Maintenance,Manufacturing,75000,25000,stable
+IoT,83,Technology,Cross-sector,100000,52000,rising
+Financial Modeling,84,Finance,Finance & Banking,105000,45000,rising
+Bloomberg Terminal,78,Finance Tools,Finance & Banking,110000,22000,stable
+Risk Management,82,Finance,Finance & Banking,108000,38000,rising
+Accounting,73,Finance,Finance & Banking,80000,75000,stable
+Tax Compliance,70,Finance,Finance & Banking,78000,45000,stable
+Auditing,74,Finance,Finance & Banking,85000,38000,stable
+Banking Regulations,76,Compliance,Finance & Banking,90000,30000,stable
+Compliance,77,Compliance,Finance & Banking,92000,35000,rising
+Credit Analysis,79,Finance,Finance & Banking,95000,28000,rising
+SEO,80,Marketing,Marketing & Business,82000,48000,rising
+SEM,78,Marketing,Marketing & Business,85000,38000,rising
+Google Analytics,79,Analytics,Marketing & Business,82000,42000,stable
+Social Media Marketing,76,Marketing,Marketing & Business,78000,55000,rising
+Content Marketing,74,Marketing,Marketing & Business,75000,48000,rising
+CRM Tools,75,Sales,Marketing & Business,80000,52000,stable
+Negotiation,71,Sales,Marketing & Business,82000,40000,stable
+Power BI,74,Analytics,Cross-sector,95000,48000,stable
+Tableau,76,Analytics,Cross-sector,98000,42000,stable
+GIS,77,Geospatial,Agriculture,78000,22000,rising
+Remote Sensing,75,Geospatial,Agriculture,80000,18000,rising
+Agricultural Technology,76,AgriTech,Agriculture,72000,25000,rising
+GPS Technology,71,Geospatial,Agriculture,72000,20000,stable
+Soil Science,68,Agriculture,Agriculture,65000,18000,stable
+Drone Technology,78,AgriTech,Agriculture,80000,20000,rising
+Farm Management Software,69,AgriTech,Agriculture,68000,15000,stable
+Supply Chain Management,79,Logistics,Agriculture,88000,45000,rising
+Logistics,75,Logistics,Cross-sector,80000,50000,stable
+ERP Systems,76,Tools,Cross-sector,85000,48000,stable
+Inventory Management,72,Logistics,Cross-sector,78000,40000,stable
+Cold Chain Management,70,Logistics,Agriculture,75000,18000,stable
+Procurement,73,Logistics,Cross-sector,82000,38000,stable
+Product Management,80,Management,Cross-sector,110000,42000,rising
+Project Management,78,Management,Cross-sector,95000,72000,stable

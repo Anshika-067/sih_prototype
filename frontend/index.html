@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillTor – Smart Skill Demand Predictor</title>
+
+  <!-- Chart.js for interactive charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+
+  <!-- Our custom stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════
+       HEADER / NAV
+  ═══════════════════════════════════════════════════ -->
+  <header class="header">
+    <div class="header-content">
+      <div class="logo">
+        <span class="logo-icon">🎯</span>
+        <span class="logo-text">SkillTor</span>
+        <span class="logo-sub">Smart Skill Demand Predictor</span>
+      </div>
+      <nav class="nav" role="navigation" aria-label="Main navigation">
+        <button class="nav-btn active" data-tab="dashboard" onclick="switchTab('dashboard')">📊 Dashboard</button>
+        <button class="nav-btn" data-tab="analyse" onclick="switchTab('analyse')">📈 Skill Gap</button>
+        <button class="nav-btn" data-tab="sector-comparison" onclick="switchTab('sector-comparison')">🗺️ State / Sector</button>
+        <button class="nav-btn" data-tab="district-analysis" onclick="switchTab('district-analysis')">📍 District Analysis</button>
+        <button class="nav-btn" data-tab="recommend" onclick="switchTab('recommend')">💡 Recommendations</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════
+       DISCLAIMER BANNER
+  ═══════════════════════════════════════════════════ -->
+  <div class="disclaimer-banner">
+    <span>⚠️</span>
+    <strong>Data Notice:</strong>&nbsp;Dashboard and regional figures are illustrative; recommendations use a sample-trained model.
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       MAIN CONTENT AREA
+  ═══════════════════════════════════════════════════ -->
+  <main class="main-content">
+
+    <!-- ── TAB 1: Dashboard ──────────────────────────── -->
+    <section id="tab-dashboard" class="tab-section active">
+      <div class="section-header">
+        <h1>📊 Skill Demand Dashboard</h1>
+        <p class="section-desc">Explore the most in-demand skills in today's (simulated) job market.</p>
+      </div>
+
+      <!-- KPI Cards -->
+      <div class="kpi-grid" id="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-icon">💼</div>
+          <div class="kpi-value" id="kpi-roles">—</div>
+          <div class="kpi-label">Job Roles</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon">🛠️</div>
+          <div class="kpi-value" id="kpi-skills">—</div>
+          <div class="kpi-label">Tracked Skills</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon">📈</div>
+          <div class="kpi-value" id="kpi-trending">—</div>
+          <div class="kpi-label">Rising Skills</div>
+        </div>
+        <div class="kpi-card highlight">
+          <div class="kpi-icon">🏆</div>
+          <div class="kpi-value" id="kpi-top-skill">—</div>
+          <div class="kpi-label">Top Skill</div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="charts-row">
+        <div class="chart-card wide">
+          <h2 class="chart-title">Top 15 Skills by Demand Score</h2>
+          <p class="chart-note">Higher score = more in-demand in the sample dataset</p>
+          <canvas id="chart-top-skills" height="120"></canvas>
+          <div id="chart-top-skills-fallback" class="metric-bars hidden"></div>
+        </div>
+        <div class="chart-card">
+          <h2 class="chart-title">Demand by Category</h2>
+          <canvas id="chart-categories" height="250"></canvas>
+          <div id="chart-categories-fallback" class="metric-bars hidden"></div>
+        </div>
+      </div>
+
+      <!-- Trending Skills -->
+      <div class="card">
+        <h2 class="card-title">🚀 Rising / Trending Skills</h2>
+        <p class="chart-note">Skills with an upward growth trend in the dataset</p>
+        <div class="skill-pills" id="trending-pills">
+          <span class="pill loading">Loading…</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── State-wise sector comparison ───────────────── -->
+    <section id="tab-sector-comparison" class="tab-section">
+      <div class="section-header">
+        <h1>🗺️ State-wise Sector Comparison</h1>
+        <p class="section-desc">Compare simulated skill-demand scores for one industry across states.</p>
+      </div>
+      <div class="card">
+        <label class="form-label" for="state-sector-select">Industry / Sector:</label>
+        <select id="state-sector-select" class="form-select"></select>
+      </div>
+      <div class="card">
+        <h2 class="card-title" id="state-sector-title">Sector demand by state</h2>
+        <p class="chart-note">Illustrative demand index from 0–100. These are simulated, not official statistics.</p>
+        <div id="state-sector-bars" class="metric-bars" aria-live="polite"></div>
+        <div class="skill-table-wrapper">
+          <table class="skill-table">
+            <thead><tr><th>Rank</th><th>State / Territory</th><th>Sector</th><th>Demand Index</th></tr></thead>
+            <tbody id="state-sector-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── District analysis ──────────────────────────── -->
+    <section id="tab-district-analysis" class="tab-section">
+      <div class="section-header">
+        <h1>📍 District Analysis</h1>
+        <p class="section-desc">Explore simulated demand and sector estimates for a selected district.</p>
+      </div>
+      <div class="card">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="district-state-select">State / Territory:</label>
+            <select id="district-state-select" class="form-select"></select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="district-select">District:</label>
+            <select id="district-select" class="form-select"></select>
+          </div>
+        </div>
+      </div>
+      <div id="district-results">
+        <div class="kpi-grid">
+          <div class="kpi-card"><div class="kpi-icon">📈</div><div class="kpi-value" id="district-demand">—</div><div class="kpi-label">Demand Index</div></div>
+          <div class="kpi-card"><div class="kpi-icon">💼</div><div class="kpi-value" id="district-openings">—</div><div class="kpi-label">Estimated Openings</div></div>
+          <div class="kpi-card highlight"><div class="kpi-icon">🏆</div><div class="kpi-value" id="district-leading-sector">—</div><div class="kpi-label">Leading Sector</div></div>
+        </div>
+        <div class="card">
+          <h2 class="card-title" id="district-sector-title">Sector demand profile</h2>
+          <p class="chart-note">Simulated sector index (0–100); estimates are for demonstration only.</p>
+          <div id="district-sector-bars" class="metric-bars" aria-live="polite"></div>
+          <div class="skill-table-wrapper">
+            <table class="skill-table">
+              <thead><tr><th>Sector</th><th>Demand Index</th></tr></thead>
+              <tbody id="district-sector-table"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── TAB 2: Skill Gap Analysis ─────────────────── -->
+    <section id="tab-analyse" class="tab-section">
+      <div class="section-header">
+        <h1>📈 Skill Gap Analysis</h1>
+        <p class="section-desc">Enter your current skills and a target role to see what you're missing.</p>
+      </div>
+
+      <!-- Input Form -->
+      <div class="card">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Your Current Skills:</label>
+            <p class="form-hint">Type a skill and press Enter or click Add. Skill names are case-insensitive.</p>
+            <div class="skill-input-row">
+              <input type="text" id="skill-input" class="form-input" placeholder="e.g. Python, SQL, Git…" />
+              <button class="btn btn-secondary" onclick="addSkill()">+ Add</button>
+            </div>
+            <div class="skill-pills" id="my-skills-pills">
+              <span class="pill-empty">No skills added yet</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="gap-domain-select">Industry / Specialization:</label>
+            <select id="gap-domain-select" class="form-select" onchange="updateGapRoleSelect()">
+              <option value="">-- Choose an industry and specialization --</option>
+              <optgroup label="IT &amp; Software">
+                <option value="IT &amp; Software::Python">Python</option>
+                <option value="IT &amp; Software::Web Development">Web Development</option>
+                <option value="IT &amp; Software::Cybersecurity">Cybersecurity</option>
+                <option value="IT &amp; Software::Data Science">Data Science</option>
+              </optgroup>
+              <optgroup label="Healthcare">
+                <option value="Healthcare::Healthcare Administration">Healthcare Administration</option>
+                <option value="Healthcare::Medical Coding">Medical Coding</option>
+                <option value="Healthcare::Health Informatics">Health Informatics</option>
+              </optgroup>
+              <optgroup label="Manufacturing">
+                <option value="Manufacturing::Automation">Automation</option>
+                <option value="Manufacturing::Quality Control">Quality Control</option>
+                <option value="Manufacturing::Industrial Maintenance">Industrial Maintenance</option>
+              </optgroup>
+              <optgroup label="Finance &amp; Banking">
+                <option value="Finance &amp; Banking::Financial Analysis">Financial Analysis</option>
+                <option value="Finance &amp; Banking::Accounting">Accounting</option>
+                <option value="Finance &amp; Banking::Risk Analysis">Risk Analysis</option>
+              </optgroup>
+              <optgroup label="Marketing &amp; Business">
+                <option value="Marketing &amp; Business::Digital Marketing">Digital Marketing</option>
+                <option value="Marketing &amp; Business::Sales">Sales</option>
+                <option value="Marketing &amp; Business::Business Analytics">Business Analytics</option>
+              </optgroup>
+              <optgroup label="Agriculture">
+                <option value="Agriculture::Precision Farming">Precision Farming</option>
+                <option value="Agriculture::Agricultural Technology">Agricultural Technology</option>
+                <option value="Agriculture::Supply Chain Management">Supply Chain Management</option>
+              </optgroup>
+            </select>
+            <label class="form-label">Target Job Role:</label>
+            <p class="form-hint">Choose a role. The list is grouped by industry and specialization.</p>
+            <select id="gap-role-select" class="form-select">
+              <option value="">-- Choose a target job role --</option>
+              <optgroup label="IT &amp; Software — Python" data-domain="IT &amp; Software::Python">
+                <option value="Python Developer">Python Developer</option>
+              </optgroup>
+              <optgroup label="IT &amp; Software — Web Development" data-domain="IT &amp; Software::Web Development">
+                <option value="Web Developer">Web Developer</option>
+                <option value="Full Stack Developer">Full Stack Developer</option>
+                <option value="Frontend Developer">Frontend Developer</option>
+                <option value="Backend Developer">Backend Developer</option>
+                <option value="Cloud Engineer">Cloud Engineer</option>
+                <option value="DevOps Engineer">DevOps Engineer</option>
+              </optgroup>
+              <optgroup label="IT &amp; Software — Cybersecurity" data-domain="IT &amp; Software::Cybersecurity">
+                <option value="Cybersecurity Analyst">Cybersecurity Analyst</option>
+                <option value="Penetration Tester">Penetration Tester</option>
+                <option value="Security Operations Analyst">Security Operations Analyst</option>
+              </optgroup>
+              <optgroup label="IT &amp; Software — Data Science" data-domain="IT &amp; Software::Data Science">
+                <option value="Data Scientist">Data Scientist</option>
+                <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+                <option value="Data Analyst">Data Analyst</option>
+                <option value="NLP Engineer">NLP Engineer</option>
+              </optgroup>
+              <optgroup label="Healthcare — Healthcare Administration" data-domain="Healthcare::Healthcare Administration">
+                <option value="Healthcare Administrator">Healthcare Administrator</option>
+                <option value="Hospital Operations Manager">Hospital Operations Manager</option>
+                <option value="Clinical Project Coordinator">Clinical Project Coordinator</option>
+              </optgroup>
+              <optgroup label="Healthcare — Medical Coding" data-domain="Healthcare::Medical Coding">
+                <option value="Medical Coder">Medical Coder</option>
+                <option value="Medical Billing Specialist">Medical Billing Specialist</option>
+                <option value="Health Information Technician">Health Information Technician</option>
+              </optgroup>
+              <optgroup label="Healthcare — Health Informatics" data-domain="Healthcare::Health Informatics">
+                <option value="Health Informatics Specialist">Health Informatics Specialist</option>
+                <option value="Clinical Data Analyst">Clinical Data Analyst</option>
+                <option value="Healthcare Data Scientist">Healthcare Data Scientist</option>
+              </optgroup>
+              <optgroup label="Manufacturing — Automation" data-domain="Manufacturing::Automation">
+                <option value="Automation Engineer">Automation Engineer</option>
+                <option value="Robotics Engineer">Robotics Engineer</option>
+                <option value="Industrial IoT Engineer">Industrial IoT Engineer</option>
+              </optgroup>
+              <optgroup label="Manufacturing — Quality Control" data-domain="Manufacturing::Quality Control">
+                <option value="Quality Control Analyst">Quality Control Analyst</option>
+                <option value="Quality Assurance Engineer">Quality Assurance Engineer</option>
+                <option value="Lean Manufacturing Specialist">Lean Manufacturing Specialist</option>
+              </optgroup>
+              <optgroup label="Manufacturing — Industrial Maintenance" data-domain="Manufacturing::Industrial Maintenance">
+                <option value="Industrial Maintenance Technician">Industrial Maintenance Technician</option>
+                <option value="Maintenance Engineer">Maintenance Engineer</option>
+                <option value="Plant Engineer">Plant Engineer</option>
+              </optgroup>
+              <optgroup label="Finance &amp; Banking — Financial Analysis" data-domain="Finance &amp; Banking::Financial Analysis">
+                <option value="Financial Analyst">Financial Analyst</option>
+                <option value="Investment Analyst">Investment Analyst</option>
+                <option value="Equity Research Analyst">Equity Research Analyst</option>
+              </optgroup>
+              <optgroup label="Finance &amp; Banking — Accounting" data-domain="Finance &amp; Banking::Accounting">
+                <option value="Accountant">Accountant</option>
+                <option value="Tax Analyst">Tax Analyst</option>
+                <option value="Forensic Accountant">Forensic Accountant</option>
+              </optgroup>
+              <optgroup label="Finance &amp; Banking — Risk Analysis" data-domain="Finance &amp; Banking::Risk Analysis">
+                <option value="Risk Analyst">Risk Analyst</option>
+                <option value="Credit Risk Analyst">Credit Risk Analyst</option>
+                <option value="Compliance Officer">Compliance Officer</option>
+              </optgroup>
+              <optgroup label="Marketing &amp; Business — Digital Marketing" data-domain="Marketing &amp; Business::Digital Marketing">
+                <option value="Digital Marketing Specialist">Digital Marketing Specialist</option>
+                <option value="SEO Analyst">SEO Analyst</option>
+                <option value="Social Media Manager">Social Media Manager</option>
+              </optgroup>
+              <optgroup label="Marketing &amp; Business — Sales" data-domain="Marketing &amp; Business::Sales">
+                <option value="Sales Executive">Sales Executive</option>
+                <option value="Business Development Manager">Business Development Manager</option>
+                <option value="Sales Operations Analyst">Sales Operations Analyst</option>
+              </optgroup>
+              <optgroup label="Marketing &amp; Business — Business Analytics" data-domain="Marketing &amp; Business::Business Analytics">
+                <option value="Business Analytics Manager">Business Analytics Manager</option>
+                <option value="Data Analyst - Business">Data Analyst - Business</option>
+                <option value="Market Research Analyst">Market Research Analyst</option>
+              </optgroup>
+              <optgroup label="Agriculture — Precision Farming" data-domain="Agriculture::Precision Farming">
+                <option value="Precision Farming Specialist">Precision Farming Specialist</option>
+                <option value="Agricultural Data Analyst">Agricultural Data Analyst</option>
+                <option value="Drone Technology Specialist">Drone Technology Specialist</option>
+              </optgroup>
+              <optgroup label="Agriculture — Agricultural Technology" data-domain="Agriculture::Agricultural Technology">
+                <option value="Agricultural Technology Specialist">Agricultural Technology Specialist</option>
+                <option value="Farm Management Software Specialist">Farm Management Software Specialist</option>
+                <option value="AgriTech Product Manager">AgriTech Product Manager</option>
+              </optgroup>
+              <optgroup label="Agriculture — Supply Chain Management" data-domain="Agriculture::Supply Chain Management">
+                <option value="Supply Chain Manager">Supply Chain Manager</option>
+                <option value="Agricultural Supply Chain Analyst">Agricultural Supply Chain Analyst</option>
+                <option value="Cold Chain Specialist">Cold Chain Specialist</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-primary" onclick="runGapAnalysis()">🔍 Analyse My Skill Gap</button>
+          <button class="btn btn-outline" onclick="clearSkills()">🗑 Clear Skills</button>
+        </div>
+      </div>
+
+      <!-- Results Panel (hidden until analysis runs) -->
+      <div id="gap-results-panel" class="hidden">
+        <p id="gap-offline-note" class="form-hint hidden">Offline analysis is using the sample role requirements. Demand scores and trends require the Flask backend.</p>
+        <!-- Coverage meter -->
+        <div class="card coverage-card">
+          <h2 class="card-title">Your Coverage for <span id="gap-role-name"></span></h2>
+          <div class="coverage-meter-wrap">
+            <div class="coverage-bar-bg">
+              <div class="coverage-bar-fill" id="coverage-bar" style="width: 0%"></div>
+            </div>
+            <span class="coverage-label" id="coverage-label">0%</span>
+          </div>
+          <div class="coverage-stats">
+            <div class="stat-box good">
+              <div class="stat-number" id="stat-matched">0</div>
+              <div class="stat-label">Skills You Have</div>
+            </div>
+            <div class="stat-box bad">
+              <div class="stat-number" id="stat-missing">0</div>
+              <div class="stat-label">Skills to Learn</div>
+            </div>
+            <div class="stat-box neutral">
+              <div class="stat-number" id="stat-total">0</div>
+              <div class="stat-label">Total Required</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gap chart -->
+        <div class="charts-row">
+          <div class="chart-card">
+            <h3 class="chart-title">Coverage Breakdown</h3>
+            <canvas id="chart-gap-donut" height="250"></canvas>
+          </div>
+          <div class="chart-card wide">
+            <h3 class="chart-title">Missing Skills (by Demand Score)</h3>
+            <canvas id="chart-missing-skills" height="250"></canvas>
+          </div>
+        </div>
+
+        <!-- Skill lists -->
+        <div class="two-col">
+          <div class="card">
+            <h3 class="card-title good-title">✅ Skills You Already Have</h3>
+            <ul class="skill-list" id="matched-skills-list"></ul>
+          </div>
+          <div class="card">
+            <h3 class="card-title bad-title">❌ Skills You Need to Learn</h3>
+            <ul class="skill-list" id="missing-skills-list"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── TAB 4: Recommendations ─────────────────────── -->
+    <section id="tab-recommend" class="tab-section">
+      <div class="section-header">
+        <h1>💡 Smart Recommendations</h1>
+        <p class="section-desc">Our ML model suggests the next best skill for you to learn.</p>
+      </div>
+
+      <!-- ML disclaimer -->
+      <div class="ml-disclaimer card">
+        <h3>🤖 About the Recommendation Engine</h3>
+        <p>
+          We use a <strong>Random Forest Classifier</strong> trained on ~50 synthetic sample records.
+          It predicts the next skill you should learn based on your current skill set.
+        </p>
+        <p class="disclaimer-warning">
+          ⚠️ The model's accuracy is measured on the sample dataset only.
+          Treat these recommendations as a starting point — not definitive career advice.
+          See the Model Info section below for accuracy metrics.
+        </p>
+        <button class="btn btn-outline btn-sm" onclick="loadModelInfo()">📊 Load Model Info</button>
+        <div id="model-info-panel" class="model-info-panel hidden"></div>
+      </div>
+
+      <!-- Recommendation form -->
+      <div class="card">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Your Current Skills:</label>
+            <p class="form-hint">Same input as the Skill Gap tab — add your known skills.</p>
+            <div class="skill-input-row">
+              <input type="text" id="rec-skill-input" class="form-input" placeholder="e.g. Python, SQL…" />
+              <button class="btn btn-secondary" onclick="addRecSkill()">+ Add</button>
+            </div>
+            <div class="skill-pills" id="rec-skills-pills">
+              <span class="pill-empty">No skills added yet</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Target Role (optional):</label>
+            <select id="rec-role-select" class="form-select">
+              <option value="">-- Optional: helps refine suggestions --</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="getRecommendations()">💡 Get My Recommendations</button>
+      </div>
+
+      <!-- Results -->
+      <div id="rec-results" class="hidden">
+        <!-- Top ML Pick -->
+        <div class="card top-pick-card">
+          <h2 class="card-title">🏆 Top ML Pick</h2>
+          <div class="top-pick">
+            <div class="top-pick-skill" id="top-pick-skill">—</div>
+            <div class="top-pick-confidence">
+              Confidence: <span id="top-pick-confidence">—</span>
+              <span class="confidence-note">(from synthetic sample model)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Top 3 ML picks -->
+        <div class="card">
+          <h2 class="card-title">🤖 ML Model – Top 3 Suggestions</h2>
+          <div id="ml-top3" class="rec-cards"></div>
+        </div>
+
+        <!-- Gap-based recommendations -->
+        <div class="card" id="gap-rec-card">
+          <h2 class="card-title">📋 Gap-Based Recommendations (for target role)</h2>
+          <p class="form-hint">These are the highest-demand missing skills for your chosen role, sorted by demand score.</p>
+          <div id="gap-rec-list" class="rec-cards"></div>
+        </div>
+
+        <!-- Radar chart -->
+        <div class="card">
+          <h2 class="card-title">📡 Skill Coverage Radar</h2>
+          <p class="chart-note">How your skills compare against the most in-demand skills (top 8)</p>
+          <div class="radar-wrap">
+            <canvas id="chart-radar" width="400" height="400"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <p>SkillTor – Built with Flask + scikit-learn + Chart.js &nbsp;|&nbsp;
+       <strong>Market and model figures are illustrative, not official statistics</strong></p>
+  </footer>
+
+  <!-- ── JavaScript modules (load order matters) ──────── -->
+  <script src="js/dashboard-data.js"></script>
+  <script src="js/gap-data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+</html>
