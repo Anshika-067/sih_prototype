@@ -33,6 +33,12 @@ function switchTab(tabName) {
   // Activate the matching nav button
   const btn = document.querySelector(`.nav-btn[data-tab="${tabName}"]`);
   if (btn) btn.classList.add("active");
+  if (tabName === "sector-comparison") {
+    requestAnimationFrame(() => {
+      chartInstances["chart-state-sector-balance"]?.resize();
+      chartInstances["chart-sector-skill-history"]?.resize();
+    });
+  }
 }
 
 // ── App initialisation ────────────────────────────────────────────────────────
@@ -126,6 +132,113 @@ function renderMetricBars(containerId, entries) {
   });
 }
 
+function renderStateSectorBalanceFallback(states) {
+  const canvas = document.getElementById("chart-state-sector-balance");
+  const container = document.getElementById("chart-state-sector-balance-fallback");
+  canvas.classList.add("hidden");
+  container.classList.remove("hidden");
+  container.replaceChildren();
+
+  states.forEach(item => {
+    const row = document.createElement("div");
+    row.className = "market-fallback-row";
+    const label = document.createElement("strong");
+    label.textContent = item.label;
+    row.appendChild(label);
+
+    [["Demand", item.demand, "demand"], ["Supply", item.supply, "supply"]].forEach(([name, value, type]) => {
+      const track = document.createElement("div");
+      track.className = `market-fallback-track ${type}`;
+      track.setAttribute("aria-label", `${name}: ${value}`);
+      const fill = document.createElement("div");
+      fill.className = "market-fallback-fill";
+      fill.style.width = `${value}%`;
+      track.appendChild(fill);
+      row.appendChild(track);
+    });
+    container.appendChild(row);
+  });
+}
+
+function renderSectorSkillHistoryFallback(years, skills) {
+  const canvas = document.getElementById("chart-sector-skill-history");
+  const container = document.getElementById("chart-sector-skill-history-fallback");
+  canvas.classList.add("hidden");
+  container.classList.remove("hidden");
+  container.replaceChildren();
+
+  const namespace = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(namespace, "svg");
+  svg.setAttribute("viewBox", "0 0 1000 440");
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", `Illustrative demand-index trends from ${years[0]} through ${years[years.length - 1]}`);
+  const colors = ["#376992", "#299e98", "#61b77a", "#dd9635", "#df604b"];
+  const left = 68;
+  const right = 970;
+  const top = 24;
+  const bottom = 320;
+  const x = index => left + (right - left) * index / (years.length - 1);
+  const y = value => bottom - (bottom - top) * value / 100;
+
+  [0, 25, 50, 75, 100].forEach(value => {
+    const line = document.createElementNS(namespace, "line");
+    line.setAttribute("x1", left);
+    line.setAttribute("x2", right);
+    line.setAttribute("y1", y(value));
+    line.setAttribute("y2", y(value));
+    line.setAttribute("class", "history-grid");
+    svg.appendChild(line);
+    const label = document.createElementNS(namespace, "text");
+    label.setAttribute("x", left - 12);
+    label.setAttribute("y", y(value) + 4);
+    label.setAttribute("text-anchor", "end");
+    label.setAttribute("class", "history-axis-label");
+    label.textContent = value;
+    svg.appendChild(label);
+  });
+
+  years.forEach((year, index) => {
+    if (index % 2 !== 0 && index !== years.length - 1) return;
+    const label = document.createElementNS(namespace, "text");
+    label.setAttribute("x", x(index));
+    label.setAttribute("y", bottom + 24);
+    label.setAttribute("text-anchor", "middle");
+    label.setAttribute("class", "history-axis-label");
+    label.textContent = year;
+    svg.appendChild(label);
+  });
+
+  skills.forEach((item, index) => {
+    const polyline = document.createElementNS(namespace, "polyline");
+    polyline.setAttribute("points", item.values.map((value, yearIndex) =>
+      `${x(yearIndex)},${y(value)}`
+    ).join(" "));
+    polyline.setAttribute("stroke", colors[index % colors.length]);
+    polyline.setAttribute("class", "history-series");
+    svg.appendChild(polyline);
+
+    const legendX = left + (index % 3) * 300;
+    const legendY = 380 + Math.floor(index / 3) * 26;
+    const swatch = document.createElementNS(namespace, "line");
+    swatch.setAttribute("x1", legendX);
+    swatch.setAttribute("x2", legendX + 20);
+    swatch.setAttribute("y1", legendY);
+    swatch.setAttribute("y2", legendY);
+    swatch.setAttribute("stroke", colors[index % colors.length]);
+    swatch.setAttribute("class", "history-series");
+    svg.appendChild(swatch);
+
+    const label = document.createElementNS(namespace, "text");
+    label.setAttribute("x", legendX + 28);
+    label.setAttribute("y", legendY + 4);
+    label.setAttribute("class", "history-legend-label");
+    label.textContent = item.skill;
+    svg.appendChild(label);
+  });
+
+  container.appendChild(svg);
+}
+
 function initGeographicViews() {
   const sectorSelect = document.getElementById("state-sector-select");
   const stateSelect = document.getElementById("district-state-select");
@@ -157,19 +270,41 @@ function renderStateSectorComparison() {
   const selectedSector = document.getElementById("state-sector-select").value;
   const sectorIndex = LOCAL_DASHBOARD_DATA.sectors.indexOf(selectedSector);
   const rankedStates = LOCAL_DASHBOARD_DATA.states
-    .map(state => ({ name: state.name, value: state.scores[sectorIndex] }))
-    .sort((a, b) => b.value - a.value);
+    .map(state => ({
+      name: state.name,
+      demand: state.scores[sectorIndex],
+      supply: state.supplyScores[sectorIndex],
+    }))
+    .sort((a, b) => b.demand - a.demand);
 
-  document.getElementById("state-sector-title").textContent = `${selectedSector} demand by state`;
-  renderMetricBars("state-sector-bars", rankedStates.map(state => ({
-    label: state.name, value: state.value,
-  })));
+  document.getElementById("state-sector-title").textContent = `${selectedSector} demand vs available supply by state`;
+  const skillHistory = LOCAL_DASHBOARD_DATA.skillDemandHistory.sectors[selectedSector];
+  if (!skillHistory) {
+    throw new Error(`No historical skill-demand series found for sector "${selectedSector}".`);
+  }
+  document.getElementById("sector-history-title").textContent =
+    `${selectedSector} skill-demand trends (2016–2025)`;
+  if (typeof Chart !== "undefined") {
+    renderSectorSkillHistoryChart(LOCAL_DASHBOARD_DATA.skillDemandHistory.years, skillHistory);
+  } else {
+    renderSectorSkillHistoryFallback(LOCAL_DASHBOARD_DATA.skillDemandHistory.years, skillHistory);
+  }
+
+  if (typeof Chart !== "undefined") {
+    renderStateSectorBalanceChart(rankedStates.map(state => ({
+      label: state.name, demand: state.demand, supply: state.supply,
+    })));
+  } else {
+    renderStateSectorBalanceFallback(rankedStates.map(state => ({
+      label: state.name, demand: state.demand, supply: state.supply,
+    })));
+  }
 
   const tbody = document.getElementById("state-sector-table");
   tbody.replaceChildren();
   rankedStates.forEach((state, index) => {
     const row = tbody.insertRow();
-    [index + 1, state.name, selectedSector, state.value].forEach(value => {
+    [index + 1, state.name, selectedSector, state.demand, state.supply].forEach(value => {
       row.insertCell().textContent = value;
     });
   });

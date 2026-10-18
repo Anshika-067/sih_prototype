@@ -141,6 +141,8 @@ Invoke-RestMethod -Method POST -Uri "http://127.0.0.1:5000/api/recommendations" 
 ### 2. State-wise Sector Comparison
 - Open **🗺️ State / Sector**
 - Select an industry to compare its simulated demand index across the listed states and territories
+- Compare the selected sector's demand and available-supply indices by state
+- View its skill-specific demand trends for 2016–2025; these reconstructed illustrative indices are not observed historical statistics
 - Use the ranking table to compare state scores
 
 ### 3. District Analysis

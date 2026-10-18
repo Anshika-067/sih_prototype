@@ -106,21 +106,40 @@
     <section id="tab-sector-comparison" class="tab-section">
       <div class="section-header">
         <h1>🗺️ State-wise Sector Comparison</h1>
-        <p class="section-desc">Compare simulated skill-demand scores for one industry across states.</p>
+        <p class="section-desc">Compare illustrative demand and available-supply indices for one industry across states.</p>
       </div>
       <div class="card">
         <label class="form-label" for="state-sector-select">Industry / Sector:</label>
         <select id="state-sector-select" class="form-select"></select>
       </div>
       <div class="card">
-        <h2 class="card-title" id="state-sector-title">Sector demand by state</h2>
-        <p class="chart-note">Illustrative demand index from 0–100. These are simulated, not official statistics.</p>
-        <div id="state-sector-bars" class="metric-bars" aria-live="polite"></div>
+        <div class="market-chart-heading">
+          <div>
+            <h2 class="card-title" id="state-sector-title">Sector demand and supply by state</h2>
+            <p class="chart-note">Illustrative demand and available-supply index from 0–100. Values update with the selected sector.</p>
+          </div>
+          <div class="market-legend" aria-label="Chart legend">
+            <span><i class="demand-dot"></i>Demand</span>
+            <span><i class="supply-dot"></i>Supply</span>
+          </div>
+        </div>
+        <div class="market-chart-wrap state-sector-chart-wrap">
+          <canvas id="chart-state-sector-balance" role="img" aria-label="Line chart comparing demand and available supply by state"></canvas>
+          <div id="chart-state-sector-balance-fallback" class="market-chart-fallback hidden" aria-label="Demand and supply by state"></div>
+        </div>
         <div class="skill-table-wrapper">
           <table class="skill-table">
-            <thead><tr><th>Rank</th><th>State / Territory</th><th>Sector</th><th>Demand Index</th></tr></thead>
+            <thead><tr><th>Rank</th><th>State / Territory</th><th>Sector</th><th>Demand Index</th><th>Supply Index</th></tr></thead>
             <tbody id="state-sector-table"></tbody>
           </table>
+        </div>
+      </div>
+      <div class="card">
+        <h2 class="card-title" id="sector-history-title">Historical skill-demand trends (2016–2025)</h2>
+        <p class="chart-note">Illustrative reconstructed demand index across distinct skills in the selected sector; these are not observed historical statistics.</p>
+        <div class="market-chart-wrap sector-history-chart-wrap">
+          <canvas id="chart-sector-skill-history" role="img" aria-label="Line chart showing illustrative demand-index trends for skills from 2016 through 2025"></canvas>
+          <div id="chart-sector-skill-history-fallback" class="sector-history-fallback hidden" aria-label="Historical skill demand trends"></div>
         </div>
       </div>
     </section>

@@ -117,6 +117,129 @@ function renderCategoryChart(categories) {
 }
 
 /**
+ * Line chart: compare estimated demand and available supply by state.
+ * @param {Array} states - array of { label, demand, supply }
+ */
+function renderStateSectorBalanceChart(states) {
+  destroyChart("chart-state-sector-balance");
+  const ctx = document.getElementById("chart-state-sector-balance").getContext("2d");
+
+  chartInstances["chart-state-sector-balance"] = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: states.map(item => item.label),
+      datasets: [
+        {
+          label: "Demand",
+          data: states.map(item => item.demand),
+          borderColor: "#376992",
+          backgroundColor: "#376992",
+          pointBackgroundColor: "#376992",
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          borderWidth: 3,
+          tension: 0.35,
+        },
+        {
+          label: "Supply",
+          data: states.map(item => item.supply),
+          borderColor: "#299e98",
+          backgroundColor: "#299e98",
+          pointBackgroundColor: "#299e98",
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          borderWidth: 3,
+          tension: 0.35,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: "index", intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: context => ` ${context.dataset.label}: ${Number(context.raw).toLocaleString()}`,
+          },
+        },
+      },
+      scales: {
+        x: {
+          ticks: { color: "#64748b", maxRotation: 20, minRotation: 0 },
+          grid: { display: false },
+        },
+        y: {
+          beginAtZero: true,
+          max: 100,
+          ticks: {
+            color: "#64748b",
+          },
+          grid: { color: "#d7e4ed", borderDash: [4, 4] },
+        },
+      },
+    },
+  });
+}
+
+/**
+ * Line chart: illustrative ten-year demand trends for sector-specific skills.
+ * @param {string[]} years - consecutive historical calendar years
+ * @param {Array} skills - array of { skill, values }
+ */
+function renderSectorSkillHistoryChart(years, skills) {
+  destroyChart("chart-sector-skill-history");
+  const canvas = document.getElementById("chart-sector-skill-history");
+  canvas.classList.remove("hidden");
+  document.getElementById("chart-sector-skill-history-fallback").classList.add("hidden");
+
+  const colors = ["#376992", "#299e98", "#61b77a", "#dd9635", "#df604b"];
+  chartInstances["chart-sector-skill-history"] = new Chart(canvas.getContext("2d"), {
+    type: "line",
+    data: {
+      labels: years,
+      datasets: skills.map((item, index) => ({
+        label: item.skill,
+        data: item.values,
+        borderColor: colors[index % colors.length],
+        backgroundColor: colors[index % colors.length],
+        pointRadius: 2,
+        pointHoverRadius: 5,
+        borderWidth: 2.5,
+        tension: 0.3,
+      })),
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: "index", intersect: false },
+      plugins: {
+        legend: { position: "bottom", labels: { usePointStyle: true, boxWidth: 18, padding: 14 } },
+        tooltip: {
+          callbacks: {
+            label: context => ` ${context.dataset.label}: ${context.raw}`,
+          },
+        },
+      },
+      scales: {
+        x: {
+          ticks: { color: "#64748b", maxRotation: 0 },
+          grid: { display: false },
+        },
+        y: {
+          beginAtZero: true,
+          max: 100,
+          title: { display: true, text: "Illustrative demand index" },
+          ticks: { color: "#64748b", stepSize: 25 },
+          grid: { color: "#d7e4ed", borderDash: [4, 4] },
+        },
+      },
+    },
+  });
+}
+
+/**
  * Doughnut chart: skill gap coverage (have vs missing)
  * @param {number} covered  - percentage of skills covered (0–100)
  */

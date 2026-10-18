@@ -48,44 +48,91 @@ const LOCAL_DASHBOARD_DATA = {
     "Marketing & Business",
     "Agriculture",
   ],
-  // Sector score order: IT, healthcare, manufacturing, finance, marketing, agriculture.
+  skillDemandHistory: {
+    years: ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
+    sectors: {
+      "IT & Software": [
+        { skill: "Python", values: [34, 38, 43, 49, 55, 61, 67, 73, 79, 84] },
+        { skill: "Data analytics", values: [20, 25, 31, 38, 45, 52, 59, 67, 75, 82] },
+        { skill: "Cybersecurity", values: [29, 34, 39, 45, 52, 59, 66, 73, 81, 88] },
+        { skill: "Cloud computing", values: [18, 24, 31, 39, 47, 55, 63, 71, 79, 86] },
+        { skill: "Machine learning", values: [12, 17, 24, 32, 41, 51, 61, 71, 82, 92] },
+      ],
+      "Healthcare": [
+        { skill: "Telemedicine", values: [12, 15, 19, 24, 41, 59, 68, 74, 79, 83] },
+        { skill: "Health informatics", values: [20, 24, 29, 35, 42, 49, 56, 63, 70, 76] },
+        { skill: "Medical coding", values: [39, 42, 46, 50, 54, 58, 62, 66, 70, 73] },
+        { skill: "Clinical data analysis", values: [14, 18, 23, 29, 36, 44, 52, 61, 70, 79] },
+        { skill: "Remote patient monitoring", values: [8, 11, 15, 20, 31, 45, 55, 64, 72, 80] },
+      ],
+      "Manufacturing": [
+        { skill: "Industrial robotics", values: [25, 29, 34, 40, 46, 52, 58, 65, 72, 78] },
+        { skill: "Factory automation", values: [32, 36, 41, 46, 52, 58, 64, 70, 76, 82] },
+        { skill: "Quality control", values: [48, 51, 54, 57, 60, 63, 66, 69, 72, 75] },
+        { skill: "Industrial IoT", values: [9, 13, 18, 24, 31, 39, 47, 56, 65, 74] },
+        { skill: "CNC machining", values: [42, 45, 48, 51, 54, 57, 60, 63, 66, 69] },
+      ],
+      "Finance & Banking": [
+        { skill: "Digital payments", values: [14, 19, 25, 32, 40, 49, 59, 69, 80, 91] },
+        { skill: "Financial analytics", values: [30, 34, 39, 44, 50, 56, 62, 69, 76, 83] },
+        { skill: "Cybersecurity", values: [26, 31, 37, 43, 50, 57, 64, 71, 78, 85] },
+        { skill: "Risk modeling", values: [22, 26, 31, 36, 42, 48, 54, 61, 68, 75] },
+        { skill: "Regulatory compliance", values: [38, 41, 44, 48, 52, 56, 60, 64, 68, 72] },
+      ],
+      "Marketing & Business": [
+        { skill: "Digital marketing", values: [16, 21, 27, 34, 42, 51, 60, 69, 79, 88] },
+        { skill: "SEO", values: [22, 27, 32, 38, 44, 50, 57, 64, 71, 78] },
+        { skill: "Marketing analytics", values: [14, 19, 25, 32, 40, 49, 58, 67, 76, 85] },
+        { skill: "CRM platforms", values: [30, 34, 38, 43, 48, 53, 58, 63, 68, 73] },
+        { skill: "Content strategy", values: [24, 28, 33, 38, 44, 50, 56, 62, 68, 74] },
+      ],
+      Agriculture: [
+        { skill: "Precision farming", values: [9, 13, 18, 24, 31, 39, 48, 57, 67, 77] },
+        { skill: "Agricultural analytics", values: [6, 10, 15, 21, 28, 36, 45, 54, 64, 74] },
+        { skill: "Agricultural drones", values: [4, 7, 11, 16, 22, 30, 39, 48, 58, 68] },
+        { skill: "Smart irrigation", values: [28, 32, 36, 41, 46, 51, 56, 61, 66, 71] },
+        { skill: "Agri supply-chain technology", values: [12, 16, 21, 27, 34, 42, 50, 58, 67, 76] },
+      ],
+    },
+  },
+  // Demand and supply index order: IT, healthcare, manufacturing, finance, marketing, agriculture.
   states: [
-    { name: "Karnataka", scores: [91, 72, 70, 77, 79, 68], districts: [
+    { name: "Karnataka", scores: [91, 72, 70, 77, 79, 68], supplyScores: [70, 78, 62, 72, 75, 74], districts: [
       { name: "Bengaluru Urban", demand: 93, openings: 18400, adjustments: [5, 0, -2, 2, 3, -3] },
       { name: "Mysuru", demand: 75, openings: 4200, adjustments: [-4, 2, 0, -2, 1, 4] },
       { name: "Belagavi", demand: 72, openings: 3600, adjustments: [-6, 1, 4, -4, -2, 3] },
     ] },
-    { name: "Maharashtra", scores: [87, 78, 79, 88, 83, 71], districts: [
+    { name: "Maharashtra", scores: [87, 78, 79, 88, 83, 71], supplyScores: [68, 82, 70, 73, 78, 77], districts: [
       { name: "Mumbai", demand: 92, openings: 22100, adjustments: [1, 1, -4, 7, 4, -4] },
       { name: "Pune", demand: 88, openings: 16200, adjustments: [6, 0, 4, -2, 2, -3] },
       { name: "Nagpur", demand: 76, openings: 5100, adjustments: [-5, 2, 2, -1, -1, 5] },
     ] },
-    { name: "Tamil Nadu", scores: [82, 76, 88, 73, 77, 75], districts: [
+    { name: "Tamil Nadu", scores: [82, 76, 88, 73, 77, 75], supplyScores: [72, 79, 76, 69, 74, 81], districts: [
       { name: "Chennai", demand: 89, openings: 17200, adjustments: [5, 3, 1, 0, 2, -4] },
       { name: "Coimbatore", demand: 82, openings: 9600, adjustments: [1, 0, 6, -3, 1, 0] },
       { name: "Madurai", demand: 73, openings: 3900, adjustments: [-4, 2, 1, -2, -2, 4] },
     ] },
-    { name: "Telangana", scores: [89, 74, 72, 79, 81, 69], districts: [
+    { name: "Telangana", scores: [89, 74, 72, 79, 81, 69], supplyScores: [68, 80, 65, 73, 76, 76], districts: [
       { name: "Hyderabad", demand: 92, openings: 19300, adjustments: [5, 2, -2, 2, 3, -4] },
       { name: "Ranga Reddy", demand: 86, openings: 10700, adjustments: [4, 0, 1, 1, 2, -2] },
       { name: "Warangal", demand: 71, openings: 3400, adjustments: [-5, 1, 0, -3, -2, 5] },
     ] },
-    { name: "Gujarat", scores: [76, 71, 86, 78, 79, 79], districts: [
+    { name: "Gujarat", scores: [76, 71, 86, 78, 79, 79], supplyScores: [70, 77, 75, 70, 74, 83], districts: [
       { name: "Ahmedabad", demand: 87, openings: 12600, adjustments: [2, 2, 3, 2, 2, -2] },
       { name: "Surat", demand: 84, openings: 10100, adjustments: [-1, -1, 5, 0, 4, 1] },
       { name: "Rajkot", demand: 73, openings: 4300, adjustments: [-4, 0, 3, -2, 0, 4] },
     ] },
-    { name: "Kerala", scores: [73, 82, 66, 69, 73, 72], districts: [
+    { name: "Kerala", scores: [73, 82, 66, 69, 73, 72], supplyScores: [69, 86, 61, 71, 77, 78], districts: [
       { name: "Ernakulam", demand: 84, openings: 9700, adjustments: [3, 4, -4, 1, 2, -1] },
       { name: "Thiruvananthapuram", demand: 80, openings: 7900, adjustments: [4, 3, -5, 1, 1, 0] },
       { name: "Kozhikode", demand: 74, openings: 4800, adjustments: [-2, 2, -3, -1, 0, 3] },
     ] },
-    { name: "Uttar Pradesh", scores: [73, 75, 72, 68, 73, 81], districts: [
+    { name: "Uttar Pradesh", scores: [73, 75, 72, 68, 73, 81], supplyScores: [67, 78, 67, 70, 74, 84], districts: [
       { name: "Lucknow", demand: 81, openings: 10400, adjustments: [2, 4, -2, 1, 2, 0] },
       { name: "Gautam Buddha Nagar", demand: 86, openings: 15300, adjustments: [6, 2, 3, 2, 3, -5] },
       { name: "Varanasi", demand: 70, openings: 3700, adjustments: [-3, 1, -2, -2, -1, 4] },
     ] },
-    { name: "Delhi", scores: [88, 81, 65, 86, 87, 60], districts: [
+    { name: "Delhi", scores: [88, 81, 65, 86, 87, 60], supplyScores: [74, 85, 59, 78, 80, 71], districts: [
       { name: "Central", demand: 90, openings: 14600, adjustments: [2, 1, -5, 4, 3, -5] },
       { name: "South", demand: 88, openings: 11200, adjustments: [3, 1, -5, 3, 4, -5] },
       { name: "New Delhi", demand: 91, openings: 13100, adjustments: [1, 2, -6, 5, 4, -5] },
